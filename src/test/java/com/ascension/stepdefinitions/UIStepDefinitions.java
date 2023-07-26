@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 
 public class UIStepDefinitions {
@@ -29,12 +30,38 @@ public class UIStepDefinitions {
         ascensionPage.navigateToAscension();
     }
 
-
-
     @When("I click the login button") // login step definition
     public void iClickTheLoginButton() {
         ascensionPage.clickLoginButton();
-        throw new io.cucumber.java.PendingException();
     }
 
+
+    @When("I enter {string} into username input field")
+    public void iEnterIntoUsernameInputField(String username) {
+        ascensionPage.enterUsername(username);
+    }
+
+    @When("I enter {string} into password input field")
+    public void iEnterIntoPasswordInputField(String password) {
+        ascensionPage.enterPassword(password);
+    }
+
+    @When("I click the signin button")
+    public void iClickTheSigninButton() {
+        ascensionPage.clickSignInButton();
+    }
+
+    @When("I click View my Task link")
+    public void iClickViewMyTaskLink() {
+        ascensionPage.clickViewMyTask();
+    }
+
+    @Then("I wait for {int} seconds")
+    public void i_wait_for_seconds(Integer seconds)  {
+        try {
+            Thread.sleep(TimeUnit.SECONDS.toMillis(seconds));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

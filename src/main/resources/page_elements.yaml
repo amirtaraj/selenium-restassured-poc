@@ -3,3 +3,19 @@
 LoginButton:
   id: userLogin
   cssSelector: #userLogin
+
+UsernameField:
+  id: username
+  cssSelector: #username
+
+PasswordField:
+  id: password
+  cssSelector: #password
+
+SignInButton:
+  id: signIn
+  cssSelector: #signIn
+
+viewMyTaskLink:
+  id: viewMyTask
+  cssSelector: #viewMyTask

@@ -5,20 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.openqa.selenium.By;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
 
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.Yaml;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
-import java.io.File;
-
 
 public class AscensionPage {
     private final WebDriver driver;
@@ -35,7 +29,23 @@ public class AscensionPage {
     }
 
     public void navigateToAscension() {
-        driver.get("https://amirtask-app.onrender.com/"); // Provide URL here (can be put to yaml once working)
+        // Read the base URL from the JSON file
+        String baseUrl = null;
+        try {
+            baseUrl = readBaseUrlFromJson();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        driver.get(baseUrl);
+        log.info("Navigated to Ascension");
+    }
+
+    // Method to read the base URL from the JSON file
+    private String readBaseUrlFromJson() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        File jsonFile = new File("src/main/resources/config.json");
+        Map<String, String> jsonContent = mapper.readValue(jsonFile, new TypeReference<Map<String, String>>() {});
+        return jsonContent.get("baseUrl");
     }
 
     public void clickLoginButton() {
@@ -48,5 +58,51 @@ public class AscensionPage {
             log.error("LoginButton not found in page_elements.yaml");
         }
     }
+
+    public void enterUsername(String username) {
+        // Check if the key exists in the elements map before accessing its properties
+        if (elements.containsKey("UsernameField")) {
+            String id = elements.get("UsernameField").getId();
+            driver.findElement(By.id(id)).sendKeys(username);
+            log.info("Entered User name");
+        } else {
+            log.error("User name element not found in page_elements.yaml");
+        }
+    }
+
+    public void enterPassword(String password) {
+        // Check if the key exists in the elements map before accessing its properties
+        if (elements.containsKey("PasswordField")) {
+            String id = elements.get("PasswordField").getId();
+            driver.findElement(By.id(id)).sendKeys(password);
+            log.info("Entered Password");
+        } else {
+            log.error("Password element not found in page_elements.yaml");
+        }
+    }
+
+    public void clickSignInButton() {
+        // Check if the key exists in the elements map before accessing its properties
+        if (elements.containsKey("SignInButton")) {
+            String id = elements.get("SignInButton").getId();
+            driver.findElement(By.id(id)).click();
+            log.info("Clicked Sign in button");
+        } else {
+            log.error("Sign in not found in page_elements.yaml");
+        }
+    }
+
+    public void clickViewMyTask() {
+        // Check if the key exists in the elements map before accessing its properties
+        if (elements.containsKey("viewMyTaskLink")) {
+            String id = elements.get("viewMyTaskLink").getId();
+            driver.findElement(By.id(id)).click();
+            log.info("viewMyTaskLink");
+        } else {
+            log.error("viewMyTaskLink not found in page_elements.yaml");
+        }
+    }
+
+
 
 }
