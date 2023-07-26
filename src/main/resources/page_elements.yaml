@@ -1,0 +1,7 @@
+AscensionPage:
+  loginButton:
+    id: userLogin
+    # or
+    name: loginButton
+    # or
+    cssSelector: /#userLogin
