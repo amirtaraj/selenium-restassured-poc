@@ -29,15 +29,12 @@ public class UIStepDefinitions {
         ascensionPage.navigateToAscension();
     }
 
+
+
     @When("I click the login button") // login step definition
     public void iClickTheLoginButton() {
         ascensionPage.clickLoginButton();
         throw new io.cucumber.java.PendingException();
     }
 
-
-    @When("I enter {string} into username field")
-    public void iEnterIntoUsernameField(String username) {
-        ascensionPage.username();
-    }
 }

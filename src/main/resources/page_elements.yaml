@@ -1,7 +1,5 @@
-AscensionPage:
-  loginButton:
-    id: userLogin
-    # or
-    name: loginButton
-    # or
-    cssSelector: /#userLogin
+# Sample page elements YAML file
+
+LoginButton:
+  id: userLogin
+  cssSelector: #userLogin
