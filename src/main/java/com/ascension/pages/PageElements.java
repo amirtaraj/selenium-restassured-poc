@@ -4,6 +4,8 @@ public class PageElements {
     private String id;
     private String cssSelector;
 
+    private String option;
+
     // Constructors, getters, and setters
 
     public PageElements() {
@@ -24,6 +26,10 @@ public class PageElements {
 
     public String getCssSelector() {
         return cssSelector;
+    }
+
+    public String getOption() {
+        return option;
     }
 
     public void setCssSelector(String cssSelector) {

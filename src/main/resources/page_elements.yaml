@@ -19,3 +19,25 @@ SignInButton:
 viewMyTaskLink:
   id: viewMyTask
   cssSelector: #viewMyTask
+
+addNewTaskLink:
+  id: addNewTask
+
+titleField:
+  id: title
+
+textField:
+  id: text
+
+usernameDropdown:
+  id: username
+  option: Amirtaraj
+
+saveButton:
+  id: saveButton
+
+homeButton:
+  id: home
+
+logoutButton:
+  id: logout

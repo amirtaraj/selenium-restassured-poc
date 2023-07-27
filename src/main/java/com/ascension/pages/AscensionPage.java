@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -103,6 +104,82 @@ public class AscensionPage {
         }
     }
 
+    public void addNewTask() {
+        // Check if the key exists in the elements map before accessing its properties
+        if (elements.containsKey("addNewTaskLink")) {
+            String id = elements.get("addNewTaskLink").getId();
+            driver.findElement(By.id(id)).click();
+            log.info("addNewTaskLink");
+        } else {
+            log.error("addNewTaskLink not found in page_elements.yaml");
+        }
+    }
 
+    public void enterTitle(String title) {
+        // Check if the key exists in the elements map before accessing its properties
+        if (elements.containsKey("titleField")) {
+            String id = elements.get("titleField").getId();
+            driver.findElement(By.id(id)).sendKeys(title);
+            log.info("titleField");
+        } else {
+            log.error("titleField element not found in page_elements.yaml");
+        }
+    }
+
+    public void enterText(String text) {
+        // Check if the key exists in the elements map before accessing its properties
+        if (elements.containsKey("textField")) {
+            String id = elements.get("textField").getId();
+            driver.findElement(By.id(id)).sendKeys(text);
+            log.info("textField");
+        } else {
+            log.error("textField element not found in page_elements.yaml");
+        }
+    }
+
+    public void dropdownSelect(String optionText) {
+        // Check if the key exists in the elements map before accessing its properties
+        if (elements.containsKey("usernameDropdown")) {
+            String id = elements.get("usernameDropdown").getId();
+            Select dropdown = new Select(driver.findElement(By.id(id)));
+            dropdown.selectByVisibleText(optionText); // Select the option by visible text
+            log.info("Selected option from usernameDropdown: " + optionText);
+        } else {
+            log.error("usernameDropdown element not found in page_elements.yaml");
+        }
+    }
+
+    public void saveTask() {
+        // Check if the key exists in the elements map before accessing its properties
+        if (elements.containsKey("saveButton")) {
+            String id = elements.get("saveButton").getId();
+            driver.findElement(By.id(id)).click();
+            log.info("saveButton");
+        } else {
+            log.error("saveButton not found in page_elements.yaml");
+        }
+    }
+
+    public void homeClick() {
+        // Check if the key exists in the elements map before accessing its properties
+        if (elements.containsKey("homeButton")) {
+            String id = elements.get("homeButton").getId();
+            driver.findElement(By.id(id)).click();
+            log.info("homeButton");
+        } else {
+            log.error("homeButton not found in page_elements.yaml");
+        }
+    }
+
+    public void logoutClick() {
+        // Check if the key exists in the elements map before accessing its properties
+        if (elements.containsKey("logoutButton")) {
+            String id = elements.get("logoutButton").getId();
+            driver.findElement(By.id(id)).click();
+            log.info("logoutButton");
+        } else {
+            log.error("logoutButton not found in page_elements.yaml");
+        }
+    }
 
 }

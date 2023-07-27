@@ -56,6 +56,9 @@ public class UIStepDefinitions {
         ascensionPage.clickViewMyTask();
     }
 
+
+
+
     @Then("I wait for {int} seconds")
     public void i_wait_for_seconds(Integer seconds)  {
         try {
@@ -63,5 +66,40 @@ public class UIStepDefinitions {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @When("I click Add New Task link")
+    public void i_click_add_new_task_link() {
+        ascensionPage.addNewTask();
+    }
+
+    @When("I enter {string} into title input field")
+    public void iEnterIntoTitleInputField(String title) {
+        ascensionPage.enterTitle(title);
+    }
+
+    @When("I enter {string} into text input field")
+    public void iEnterIntoTextInputField(String text) {
+        ascensionPage.enterText(text);
+    }
+
+    @When("I select {string} option from username dropdown")
+    public void iSelectOptionFromUsernameDropdown(String optionText) {
+        ascensionPage.dropdownSelect(optionText);
+    }
+
+    @When("I click the save button")
+    public void iClickTheSaveButton() {
+        ascensionPage.saveTask();
+    }
+
+    @When("I click the home button")
+    public void iClickTheHomeButton() {
+        ascensionPage.homeClick();
+    }
+
+    @When("I click the logout button")
+    public void iClickTheLogoutButton() {
+        ascensionPage.logoutClick();
     }
 }
