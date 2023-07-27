@@ -1,4 +1,4 @@
-Feature: Ascension POC
+Feature: Ascension UI Automation POC
 
   Scenario: Create a Task
     Given I navigate to Ascension page
@@ -8,6 +8,7 @@ Feature: Ascension POC
     When I click the signin button
     Then I wait for 4 seconds
     When I click Add New Task link
+    Then I wait for 2 seconds
     When I enter "Test Title Demo" into title input field
     When I enter "Test Text Demo" into text input field
     When I select "Amirtaraj" option from username dropdown
