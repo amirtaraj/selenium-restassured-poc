@@ -8,8 +8,8 @@ Feature: Ascension POC
     When I click the signin button
     Then I wait for 4 seconds
     When I click Add New Task link
-    When I enter "Test Title 92" into title input field
-    When I enter "Test Text 92" into text input field
+    When I enter "Test Title Demo" into title input field
+    When I enter "Test Text Demo" into text input field
     When I select "Amirtaraj" option from username dropdown
     When I click the save button
     Then I wait for 3 seconds
