@@ -9,8 +9,8 @@ Feature: Ascension UI Automation POC
     Then I wait for 4 seconds
     When I click Add New Task link
     Then I wait for 2 seconds
-    When I enter "Test Title Demo" into title input field
-    When I enter "Test Text Demo" into text input field
+    When I enter "Ascension Demo Test Title" into title input field
+    When I enter "Ascension Demo Test Text" into text input field
     When I select "Amirtaraj" option from username dropdown
     When I click the save button
     Then I wait for 3 seconds
@@ -18,3 +18,4 @@ Feature: Ascension UI Automation POC
     When I click View my Task link
     Then I wait for 3 seconds
     When I click the logout button
+    Then I wait for 2 seconds

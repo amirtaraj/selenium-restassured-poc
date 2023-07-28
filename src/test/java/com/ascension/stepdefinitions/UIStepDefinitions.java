@@ -102,4 +102,5 @@ public class UIStepDefinitions {
     public void iClickTheLogoutButton() {
         ascensionPage.logoutClick();
     }
+
 }

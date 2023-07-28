@@ -3,6 +3,9 @@ package com.ascension.stepdefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import org.hamcrest.Matchers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import utils.ConfigUtils;
 import utils.RestUtils;
 import io.restassured.response.Response;
@@ -68,6 +71,19 @@ public class APIStepDefinitions {
         response = RestUtils.performDeleteRequest();
     }
 
-
+    @Then("^I should get \"([^\"]*)\" as \"([^\"]*)\"$")
+    public void validateFieldValue(String field, String expectedValue) {
+        String jsonPath = field.replaceAll("\"", "");
+        Logger logger = LoggerFactory.getLogger(getClass());
+        if (expectedValue.matches("-?\\d+")) {
+            response.then().assertThat().body(jsonPath, Matchers.equalTo(Integer.parseInt(expectedValue)));
+            int actualValue = response.jsonPath().getInt(jsonPath);
+            logger.info("Validating field '{}' with expected integer value: Expected={}, Actual={}", jsonPath, expectedValue, actualValue);
+        } else {
+            response.then().assertThat().body(jsonPath, Matchers.equalTo(expectedValue));
+            String actualValue = response.jsonPath().getString(jsonPath);
+            logger.info("Validating field '{}' with expected string value: Expected='{}', Actual='{}'", jsonPath, expectedValue, actualValue);
+        }
+    }
 
 }
