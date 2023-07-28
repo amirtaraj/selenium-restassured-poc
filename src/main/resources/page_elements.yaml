@@ -1,4 +1,4 @@
-# Sample page elements YAML file
+# page elements YAML file
 
 LoginButton:
   id: userLogin

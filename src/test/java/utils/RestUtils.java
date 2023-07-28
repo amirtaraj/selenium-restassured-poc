@@ -1,22 +1,17 @@
 package utils;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
-
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.InputStream;
 import static io.restassured.RestAssured.given;
 
 public class RestUtils {
@@ -27,14 +22,18 @@ public class RestUtils {
     public RestUtils() throws IOException {
     }
 
-    public JsonObject readJsonFile(String fileName) throws IOException {
-        JsonParser parser = new JsonParser();
-        try (InputStreamReader reader = new InputStreamReader(
-                Objects.requireNonNull(RestUtils.class.getClassLoader().getResourceAsStream(fileName + ".json")),
-                StandardCharsets.UTF_8
-        )) {
-            JsonElement jsonElement = parser.parse(reader);
-            return jsonElement.getAsJsonObject();
+    public JsonNode readJsonFile(String fileName) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName + ".json")) {
+            if (inputStream == null) {
+                String errorMessage = "File not found: " + fileName + ".json";
+                LOGGER.error(errorMessage);
+                throw new IOException(errorMessage);
+            }
+            String successMessage = "File found: " + fileName + ".json";
+            LOGGER.info(successMessage);
+            JsonNode jsonNode = mapper.readTree(inputStream);
+            return jsonNode;
         }
     }
 
@@ -58,18 +57,27 @@ public class RestUtils {
 
     public static Response performPostRequest(String payload) throws IOException {
         RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
-        JsonObject bodyPayload = new RestUtils().readJsonFile(payload);
+
+        // Read JSON payload from file
+        JsonNode bodyPayload = new RestUtils().readJsonFile(payload);
+
+        // Set "Content-Type" header to "application/json"
+        requestSpecification.contentType(ContentType.JSON);
+
+        // Set the request body
         requestSpecification.body(bodyPayload.toString());
+        LOGGER.info("Request body: {}", bodyPayload.toString()); // Log the request body here
+
         response = requestSpecification.post(RestAssured.basePath);
         response.then().log().all();
         LOGGER.info("Post URL: {}", RestAssured.baseURI + RestAssured.basePath);
-        LOGGER.info("Post body: {}", RestAssured.requestSpecification);
         LOGGER.info("Received response status code: {}", response.getStatusCode());
+
         return response;
     }
 
     public static Response performPutRequest(String payload) throws IOException {
-        JsonObject bodyPayload = new RestUtils().readJsonFile(payload);
+        JsonNode bodyPayload = new RestUtils().readJsonFile(payload);
         response = requestSpecification.when().body(bodyPayload.toString()).put(RestAssured.basePath).then().extract().response();
         response.then().log().all();
         LOGGER.info("Put URL: {}", RestAssured.baseURI + RestAssured.basePath);
