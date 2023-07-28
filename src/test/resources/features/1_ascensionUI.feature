@@ -18,4 +18,3 @@ Feature: Ascension UI Automation POC
     When I click View my Task link
     Then I wait for 3 seconds
     When I click the logout button
-    Then I wait for 2 seconds
