@@ -7,14 +7,22 @@ import org.hamcrest.Matchers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.ConfigUtils;
+import utils.JsonReader;
 import utils.RestUtils;
 import io.restassured.response.Response;
+import utils.TestContext;
+
 import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 
 
 public class APIStepDefinitions {
     private Response response;
+    private final TestContext context;
+
+    public APIStepDefinitions(TestContext context) {
+        this.context = context;
+    }
 
     @When("I perform a GET request")
     public void getRequest(){
@@ -70,6 +78,37 @@ public class APIStepDefinitions {
     public void deleteRequest(){
         response = RestUtils.performDeleteRequest();
     }
+
+    @Given("user has access to endpoint {string}")
+    public void userHasAccessToEndpoint(String endpoint) {
+        context.session.put("endpoint", endpoint);
+    }
+
+    @Given("user has access to endpoint {string} with param {string}")
+    public void userHasAccessToEndpointWithParam(String endpoint, String param) {
+        String fullEndpoint = endpoint + "/" + param;
+        context.session.put("endpoint", fullEndpoint);
+    }
+
+    @When("user makes a request to view all Patients")
+    public void userMakesARequestToViewBookingIDs() {
+        context.response = context.requestSetup().when().get(context.session.get("endpoint").toString());
+    }
+
+    @Then("user should get the response code {int}")
+    public void userShpuldGetTheResponseCode(Integer statusCode) {
+        assertEquals(Long.valueOf(statusCode), Long.valueOf(context.response.getStatusCode()));
+    }
+
+    @When("user saves a patient from JSON file {string}")
+    public void userCreatesABookingUsingDataFromJSONFile(String JSONFile) {
+        context.response = context.requestSetup().body(JsonReader.getRequestBody(JSONFile))
+                .when().post(context.session.get("endpoint").toString());
+    }
+
+
+
+
 
     @Then("^I should get \"([^\"]*)\" as \"([^\"]*)\"$")
     public void validateFieldValue(String field, String expectedValue) {
