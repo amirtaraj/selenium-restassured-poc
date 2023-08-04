@@ -114,15 +114,9 @@ public class APIStepDefinitions {
     public void validateFieldValue(String field, String expectedValue) {
         String jsonPath = field.replaceAll("\"", "");
         Logger logger = LoggerFactory.getLogger(getClass());
-        if (expectedValue.matches("-?\\d+")) {
-            response.then().assertThat().body(jsonPath, Matchers.equalTo(Integer.parseInt(expectedValue)));
-            int actualValue = response.jsonPath().getInt(jsonPath);
-            logger.info("Validating field '{}' with expected integer value: Expected={}, Actual={}", jsonPath, expectedValue, actualValue);
-        } else {
-            response.then().assertThat().body(jsonPath, Matchers.equalTo(expectedValue));
-            String actualValue = response.jsonPath().getString(jsonPath);
-            logger.info("Validating field '{}' with expected string value: Expected='{}', Actual='{}'", jsonPath, expectedValue, actualValue);
-        }
+        context.response.then().assertThat().body(jsonPath, Matchers.equalTo(expectedValue));
+        logger.info("Validating field '{}' with expected value: Expected='{}', Actual='{}'", jsonPath, expectedValue, context.response.jsonPath().getString(jsonPath));
     }
+
 
 }
